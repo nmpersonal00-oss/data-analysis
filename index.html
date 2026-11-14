@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#142f2e">
+<meta name="description" content="An encrypted, local-first, two-person observational research notebook.">
+<meta name="referrer" content="no-referrer">
+<title>Sakinah Research · A Study in Calm</title>
+<link rel="stylesheet" href="./styles.css">
+<script type="module" src="./app.js"></script>
+</head>
+<body>
+<div class="site">
+  <header class="topbar">
+    <div class="identity"><span class="logomark" aria-hidden="true">✧</span><span class="logotype">sakinah<span class="dot">.</span><small>RESEARCH NOTEBOOK</small></span></div>
+    <div class="header-side"><span class="private-mark"><span aria-hidden="true">◈</span> LOCAL & ENCRYPTED</span><button id="lockButton" type="button" class="button small secondary" hidden>Lock vault</button></div>
+  </header>
+
+  <div id="flash" class="flash" role="status" aria-live="polite" hidden></div>
+
+  <main id="welcome">
+    <section class="welcome-hero">
+      <div>
+        <div class="eyebrow"><span class="tiny-dot"></span> PERSONAL OBSERVATIONAL RESEARCH · 2026</div>
+        <h1>Understand your<br><em>days of calm.</em></h1>
+        <p>An intentional research space for two people exploring how agreed boundaries relate to peace, tension, and emotional well-being. Built for careful records, not assumptions.</p>
+        <div class="hero-tags"><span>One relationship</span><span>Two participants</span><span>Daily observations</span></div>
+      </div>
+      <div class="hero-orbit" aria-hidden="true">
+        <div class="orbit orbit-1"></div><div class="orbit orbit-2"></div><div class="orbit orbit-3"></div>
+        <span class="orbit-word">سَكِينَة</span><span class="orbit-sub">TRANQUILITY</span>
+      </div>
+    </section>
+    <div class="auth-grid">
+      <section class="panel auth-panel">
+        <div class="section-label">01 / BEGIN</div>
+        <h2>Create a private research vault</h2>
+        <p class="support">All measurements are encrypted in this browser, not sent to GitHub or another app.</p>
+        <form id="createForm" class="stack">
+          <div class="two">
+            <div><label for="createA">Participant A nickname</label><input id="createA" maxlength="60" required placeholder="e.g. Me"></div>
+            <div><label for="createB">Participant B nickname</label><input id="createB" maxlength="60" required placeholder="e.g. My partner"></div>
+          </div>
+          <div><label for="createTimezone">Study time zone</label><select id="createTimezone">
+            <option value="America/Los_Angeles">Pacific · California</option><option value="America/Winnipeg">Central · Manitoba</option><option value="UTC">UTC</option>
+          </select></div>
+          <div><label for="createPass">Vault passphrase · 12+ characters</label><input type="password" id="createPass" minlength="12" autocomplete="new-password" required placeholder="Use a unique, memorable passphrase"></div>
+          <button class="button primary" type="submit">Create research vault <span aria-hidden="true">↗</span></button>
+        </form>
+      </section>
+      <section class="panel auth-panel">
+        <div class="section-label">02 / RETURN</div>
+        <h2>Unlock an existing vault</h2>
+        <p class="support">Your study lives on this browser. Enter the original passphrase to continue.</p>
+        <form id="unlockForm" class="stack">
+          <div><label for="unlockPass">Your vault passphrase</label><input id="unlockPass" type="password" autocomplete="current-password" required></div>
+          <button class="button secondary" type="submit">Unlock study <span aria-hidden="true">→</span></button>
+        </form>
+        <div class="thin-divider"></div>
+        <label for="importBackup">Or restore an encrypted backup</label>
+        <input type="file" id="importBackup" accept=".json,application/json">
+        <p class="fine">Your passphrase is not recoverable by us. Back up your encrypted vault regularly.</p>
+      </section>
+    </div>
+  </main>
+
+  <main id="workspace" hidden>
+    <div class="introline">
+      <div><div class="eyebrow">FIELD STUDY / PROTOCOL v1.0.0</div><h1>Our research journal<span class="dot">.</span></h1><p>Observe gently. Record precisely. Interpret cautiously.</p></div>
+      <div class="right-intro"><div id="statusBadge" class="status-pill">OBSERVING</div><label for="personPicker">Recording as</label><select id="personPicker" aria-label="Choose which participant is recording"></select></div>
+    </div>
+
+    <nav class="tabs" aria-label="Research sections">
+      <button class="tab active" data-tab="overview" aria-current="page" type="button">Overview</button>
+      <button class="tab" data-tab="diary" type="button">Daily diary</button>
+      <button class="tab" data-tab="episodes" type="button">Episodes</button>
+      <button class="tab" data-tab="analysis" type="button">Analysis</button>
+      <button class="tab" data-tab="protocol" type="button">Protocol</button>
+      <button class="tab" data-tab="data" type="button">Data & privacy</button>
+    </nav>
+
+    <section id="overview" class="tabview">
+      <div class="feature-grid">
+        <div class="panel summary-feature">
+          <div class="section-label">THE RESEARCH QUESTION</div>
+          <h2>Are our days <em>more peaceful</em> when we maintain our boundaries?</h2>
+          <p>We are observing whether calm, tension, anger and disagreements follow patterns during a period of four mutually agreed boundaries.</p>
+          <p class="micro-note">Observational design · no causal conclusions · no unrecorded baseline comparisons</p>
+        </div>
+        <div class="panel protocol-mini">
+          <div class="section-label">OBSERVATION PERIOD</div>
+          <div class="large-date">13 <span>NOV</span> <small>2026</small></div>
+          <p id="daysInfo">Study begins November 13, 2026</p>
+          <div class="divider"></div>
+          <div class="little-title">OUR FOUR BOUNDARIES</div>
+          <ul class="mini-list"><li>No physical contact</li><li>Body coverage in each other's presence</li><li>No sexual flirting</li><li>No undressing in each other's presence</li></ul>
+        </div>
+      </div>
+      <div class="block-heading"><div><div class="section-label">A PERSONAL SNAPSHOT</div><h2 id="overviewTitle">Your observation summary</h2></div><button class="button small ghost jump" data-go="diary" type="button">Record today ↗</button></div>
+      <div id="summaryCards" class="stat-grid"></div>
+      <div class="analysis-row">
+        <div class="panel"><div class="section-label">DATA COMPLETENESS</div><h3>Every recorded day matters</h3><div id="coverageBlock"></div></div>
+        <div class="panel"><div class="section-label">INTERPRETATION</div><h3>What these numbers can tell us</h3><p>They can describe observed patterns and help both people reflect. They cannot prove that following a boundary caused any emotional change. Missing days stay missing—not zero.</p></div>
+      </div>
+    </section>
+
+    <section id="diary" class="tabview" hidden>
+      <div class="block-heading"><div><div class="section-label">ONE RECORD / PERSON / DAY</div><h2>Daily field journal</h2><p>Use the same scale every day. Ideally fill in your own answers before discussing scores.</p></div></div>
+      <div class="panel">
+        <form id="diaryForm">
+          <div class="diary-top"><div><label for="diaryDate">Day being observed</label><input type="date" id="diaryDate" required></div><div class="mini-callout"><strong>Daily scale</strong><span>0 = not at all · 10 = very much</span></div></div>
+          <div class="section-label pad-top">CORE MEASUREMENTS</div>
+          <div id="scaleFields" class="form-grid"></div>
+          <div class="divider"></div>
+          <div class="section-label">EPISODE FREQUENCY</div>
+          <div class="form-grid">
+            <div><label for="disagreements">Tense disagreements</label><input type="number" id="disagreements" required min="0" max="30" step="1" value="0"></div>
+            <div><label for="tensionEpisodes">Distinct tension episodes</label><input type="number" id="tensionEpisodes" required min="0" max="30" step="1" value="0"></div>
+            <div><label for="angerEpisodes">Distinct anger episodes</label><input type="number" id="angerEpisodes" required min="0" max="30" step="1" value="0"></div>
+            <div><label for="sleepHours">Sleep last night · hours (optional)</label><input type="number" id="sleepHours" min="0" max="24" step=".5" placeholder="e.g. 7.5"></div>
+            <div><label for="togetherMinutes">Time together · minutes (optional)</label><input type="number" id="togetherMinutes" min="0" max="1440" step="1" placeholder="e.g. 90"></div>
+          </div>
+          <div class="pad-top"><label for="diaryNotes">Context notes (optional)</label><textarea id="diaryNotes" maxlength="2000" rows="4" placeholder="Outside stressors, changes in routine, things you noticed..."></textarea></div>
+          <div class="form-footer"><span id="diaryHint" class="support">An empty day is missing; a recorded zero means none occurred.</span><div class="actions"><button type="button" class="button ghost" id="deleteDiary" hidden>Delete entry</button><button class="button primary" id="saveDiary" type="submit">Save daily observation</button></div></div>
+        </form>
+      </div>
+      <div class="panel"><div class="section-label">RECORDED DAYS</div><h3>Your daily diary history</h3><div class="tablewrap"><table><thead><tr><th>Date</th><th>Calm</th><th>Tension</th><th>Anger</th><th>Disagreements</th><th></th></tr></thead><tbody id="diaryTable"></tbody></table></div></div>
+    </section>
+
+    <section id="episodes" class="tabview" hidden>
+      <div class="block-heading"><div><div class="section-label">OPTIONAL EVENT JOURNAL</div><h2>Notable episodes</h2><p>Log specific events if useful. Daily episode totals are entered separately and remain the primary frequency measures.</p></div></div>
+      <div class="two-columns">
+        <div class="panel">
+          <h3>Record an event</h3>
+          <form id="eventForm" class="stack">
+            <div><label for="eventType">Event category</label><select id="eventType" required>
+              <option value="tension">Tension</option><option value="anger">Anger</option><option value="disagreement">Disagreement</option><option value="repair">Calming / resolution</option><option value="positive">Positive connection</option>
+            </select></div>
+            <div><label for="eventWhen">Date and time</label><input type="datetime-local" id="eventWhen" required></div>
+            <div class="two"><div><label for="eventSeverity">Intensity · 0–10</label><input id="eventSeverity" type="number" min="0" max="10" value="5" required></div><div><label for="eventDuration">Duration · minutes</label><input id="eventDuration" type="number" min="0" max="1440" step="1" value="5" required></div></div>
+            <div><label for="eventContext">Context (optional)</label><textarea id="eventContext" maxlength="1000" rows="3" placeholder="Brief, factual description—no blame or sensitive details required"></textarea></div>
+            <button class="button primary" type="submit" id="saveEvent">Add event</button>
+          </form>
+        </div>
+        <div class="panel"><div class="section-label">EPISODE DEFINITIONS</div><h3>Keep counting consistent</h3><p>For tension or anger, count a sustained episode lasting at least five minutes. Consider a new episode only after at least fifteen calmer minutes. A disagreement can overlap with a tension or anger episode.</p><div class="divider"></div><p class="support">The event log is a supplementary qualitative timeline, not a replacement for the daily diary. Both people should agree on definitions before collecting observations.</p></div>
+      </div>
+      <div class="panel"><div class="section-label">EVENT TIMELINE</div><h3>Documented events</h3><div id="eventList" class="event-list"></div></div>
+    </section>
+
+    <section id="analysis" class="tabview" hidden>
+      <div class="block-heading"><div><div class="section-label">DESCRIPTIVE STATISTICS</div><h2>The data, without assumptions</h2><p>Separate the observations from the hypothesis. No statistical significance or causal effects are claimed.</p></div></div>
+      <div class="panel">
+        <div class="chart-header"><div><h3>Daily measurement trend</h3><p class="support">Gaps between recorded days are deliberately not connected.</p></div><div><label for="chartMeasure">Measurement</label><select id="chartMeasure"><option value="calm">Calm</option><option value="tension">Tension</option><option value="anger">Anger</option><option value="happiness">Happiness</option><option value="closeness">Closeness</option></select></div></div>
+        <div class="chart-container"><svg id="chart" viewBox="0 0 860 310" role="img" aria-label="Trend chart of recorded daily self-reports"></svg></div>
+        <div id="chartLegend" class="legend"></div>
+      </div>
+      <div class="panel"><div class="section-label">TWO-PARTICIPANT SUMMARY</div><h3>Descriptive measurements</h3><div class="tablewrap"><table><thead><tr><th>Indicator</th><th id="headerPersonA">Participant A</th><th id="headerPersonB">Participant B</th></tr></thead><tbody id="analysisTable"></tbody></table></div><p class="fine">Means exclude missing reports. Scores are self-reported and not an objective measure of either person's behavior.</p></div>
+      <div class="panel"><div class="section-label">QUALITY & LIMITATIONS</div><h3>Researcher's notes</h3><div id="qualityNotes" class="quality-grid"></div></div>
+    </section>
+
+    <section id="protocol" class="tabview" hidden>
+      <div class="block-heading"><div><div class="section-label">PRE-SPECIFIED · VERSION 1.0.0</div><h2>Study protocol</h2></div></div>
+      <div class="panel">
+        <div class="protocol-section"><span>01</span><div><h3>Research question</h3><p>Do my fiancée and I experience more calm and fewer episodes of tension or anger during a period when we maintain the boundaries below?</p></div></div>
+        <div class="protocol-section"><span>02</span><div><h3>Background and beliefs</h3><p>Earlier experiences without touching or showing our bodies to one another seemed calmer. Our Islamic understanding also motivates the question. We are tracking lived experiences—not measuring spiritual consequences or judging either person.</p></div></div>
+        <div class="protocol-section"><span>03</span><div><h3>Hypothesis</h3><p>While these boundaries are maintained, there will be fewer disagreements and less tension and anger, alongside more calm.</p></div></div>
+        <div class="protocol-section"><span>04</span><div><h3>The four boundaries</h3><ol><li>Refrain from physical contact with one another.</li><li>Keep bodies covered in each other's presence.</li><li>Refrain from sexual flirting.</li><li>Refrain from undressing in front of one another, even for nonsexual reasons.</li></ol></div></div>
+        <div class="protocol-section"><span>05</span><div><h3>Stopping rule</h3><p>The observation ends when either participant reports crossing any boundary. Either participant may also stop or withdraw voluntarily at any time. No new diary or event entries are accepted afterward.</p></div></div>
+        <div class="protocol-section"><span>06</span><div><h3>Research limitations</h3><p>This is an informal, non-randomized observational study of one relationship. An earlier period was not systematically measured as a baseline. Self-reporting, outside circumstances, communication changes, and early stopping may affect what you observe. Any pattern is descriptive and cannot establish causation.</p></div></div>
+      </div>
+      <div class="panel danger-outline" id="stopPanel">
+        <div class="section-label">END OF OBSERVATION</div><h3>Apply the stopping rule</h3><p>A boundary crossing stops this study permanently. Neither person should be pressured to continue. The recorded data remain available for your private review.</p>
+        <form id="stopForm" class="stop-row"><div><label for="stopReason">What happened?</label><select id="stopReason" required>
+          <option value="">Choose a reason</option><option value="physical_contact">Physical contact boundary crossed</option><option value="uncovered_body">Body coverage boundary crossed</option><option value="sexual_flirting">Sexual flirting boundary crossed</option><option value="undressing">Undressing boundary crossed</option><option value="voluntary">Voluntary early stop / withdrawal</option><option value="other">Other reason</option>
+        </select></div><button type="submit" class="button danger" id="stopButton">Stop the study</button></form>
+        <p id="stopNotice" class="support"></p>
+      </div>
+    </section>
+
+    <section id="data" class="tabview" hidden>
+      <div class="block-heading"><div><div class="section-label">YOUR DATA, YOUR CONTROL</div><h2>Export, protect & preserve</h2><p>No analytics SDKs, advertising trackers, or cloud account credentials are used.</p></div></div>
+      <div class="panel">
+        <h3>Save copies of your study</h3><p>Export daily observations and events as CSV, or download a fully encrypted JSON backup. The backup requires the vault passphrase to restore.</p>
+        <div class="download-actions"><button class="button primary" id="exportBackup" type="button">Download encrypted backup</button><button class="button secondary" id="exportDiary" type="button">Daily diary CSV</button><button class="button secondary" id="exportEvents" type="button">Event log CSV</button></div>
+      </div>
+      <div class="panel"><div class="section-label">PRIVACY MODEL</div><h3>Local encrypted database</h3><div class="privacy-grid"><div><strong>Protected at rest</strong><p>Daily reports and nicknames are encrypted with AES-GCM, using a key derived from the passphrase.</p></div><div><strong>Shared vault</strong><p>Anyone with this browser and passphrase can read or edit both participants' entries. It does not provide independent accounts or secure remote sharing.</p></div><div><strong>No automatic sync</strong><p>This version does not synchronize between phones. Each device has separate local data; encrypted backups provide portability.</p></div><div><strong>Local storage limits</strong><p>Private browsing, cleared browser data, device loss, or forgotten passphrase may permanently erase access. Keep backups.</p></div></div></div>
+      <div class="panel danger-outline"><h3>Permanently delete the local vault</h3><p>Deletes all local study content from this browser. Export an encrypted backup first if you need to keep it.</p><button class="button danger" id="deleteVaultButton" type="button">Delete all local research data</button></div>
+    </section>
+  </main>
+
+  <footer class="footer"><span>SAKINAH RESEARCH · PERSONAL OBSERVATIONAL STUDY</span><span>RECORD WITH CARE. INTERPRET WITH HUMILITY.</span></footer>
+</div>
+</body>
+</html>
