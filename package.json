@@ -1,0 +1,10 @@
+{
+  "name": "sakinah-research",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.js"
+  },
+  "description": "Encrypted local observational research tracker for two people"
+}
