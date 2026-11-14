@@ -268,7 +268,7 @@ function renderChart(){
   }
   const start=Date.parse(series[0].day+'T00:00:00Z'),
     end=Date.parse(series.at(-1).day+'T00:00:00Z');
-  const x=d=>minX+(start===end?.5:(Date.parse(d+'T00:00:00Z')-start)/(end-start))*(maxX-minX);
+  const x=d=>minX+(start===end ? 0.5 : (Date.parse(d+'T00:00:00Z')-start)/(end-start))*(maxX-minX);
   const y=v=>maxY-v/10*(maxY-minY);
   for(const [i,p] of vault.participants.entries()){
     const color=i?'#bf9966':'#31806a',pts=series.filter(r=>r.id===p.id);
@@ -353,6 +353,8 @@ function setupHandlers(){
     const pass=$('createPass').value;
     const next=await createVault(pass,$('createA').value,$('createB').value,$('createTimezone').value);
     vault=next;personId=vault.participants[0].id;
+    $('createForm').querySelector('button[type=submit]').disabled=true;
+    $('createForm').querySelector('button[type=submit]').textContent='A vault already exists on this browser';
     $('createPass').value='';clearFlash();openTab('overview');renderAll();
     flash('Private research vault created. Download an encrypted backup from Data & privacy.');
   }));
@@ -464,6 +466,8 @@ function setupHandlers(){
     if(file.size>12*1024*1024)throw new Error('Backup exceeds the 12 MB import limit.');
     if(!confirm('Import this encrypted backup into the empty browser vault?'))return;
     await restoreBackup(await file.text());
+    $('createForm').querySelector('button[type=submit]').disabled=true;
+    $('createForm').querySelector('button[type=submit]').textContent='A vault already exists on this browser';
     e.target.value='';
     flash('Encrypted backup imported. Unlock it with its original passphrase.');
   }));
@@ -473,6 +477,8 @@ function setupHandlers(){
     if(reply!=='DELETE')return;
     await deleteVault();
     vault=null;personId=null;activateUI();
+    $('createForm').querySelector('button[type=submit]').disabled=false;
+    $('createForm').querySelector('button[type=submit]').textContent='Create research vault ↗';
     flash('Local encrypted research vault deleted.');
   }));
 }
