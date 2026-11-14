@@ -252,17 +252,17 @@ function renderChart(){
   const maxX=830,minX=48,minY=20,maxY=265;
   for(let value=0;value<=10;value+=2){
     const y=maxY-value/10*(maxY-minY);
-    chart.append(createSvg('line',{x1:minX,y1:y,x2:maxX,y2:y,stroke:'#e5eae3','stroke-width':1}),
-      createSvg('text',{x:minX-12,y:y+4,'text-anchor':'end',fill:'#809187','font-size':12},String(value)));
+    chart.append(createSvg('line',{x1:minX,y1:y,x2:maxX,y2:y,stroke:'#48392e','stroke-width':1}),
+      createSvg('text',{x:minX-12,y:y+4,'text-anchor':'end',fill:'#b29c87','font-size':12},String(value)));
   }
   const legend=$('chartLegend');legend.replaceChildren();
   vault.participants.forEach((p,i)=>{
     const item=textElement('span',p.name);
-    item.style.setProperty('--legend-color',i?'#bf9966':'#31806a');
+    item.style.setProperty('--legend-color',i?'#c88470':'#deb784');
     legend.append(item);
   });
   if(!series.length){
-    chart.append(createSvg('text',{x:430,y:150,'text-anchor':'middle',fill:'#74877d','font-size':16},
+    chart.append(createSvg('text',{x:430,y:150,'text-anchor':'middle',fill:'#baa18b','font-size':16},
       'No ratings recorded yet. Add a daily diary entry.'));
     return;
   }
@@ -271,7 +271,7 @@ function renderChart(){
   const x=d=>minX+(start===end ? 0.5 : (Date.parse(d+'T00:00:00Z')-start)/(end-start))*(maxX-minX);
   const y=v=>maxY-v/10*(maxY-minY);
   for(const [i,p] of vault.participants.entries()){
-    const color=i?'#bf9966':'#31806a',pts=series.filter(r=>r.id===p.id);
+    const color=i?'#c88470':'#deb784',pts=series.filter(r=>r.id===p.id);
     for(let j=1;j<pts.length;j++){
       const earlier=Date.parse(pts[j-1].day+'T00:00:00Z');
       const later=Date.parse(pts[j].day+'T00:00:00Z');
@@ -285,8 +285,8 @@ function renderChart(){
       chart.append(c);
     });
   }
-  chart.append(createSvg('text',{x:minX,y:290,'font-size':12,fill:'#819489'},series[0].day),
-    createSvg('text',{x:maxX,y:290,'text-anchor':'end','font-size':12,fill:'#819489'},series.at(-1).day));
+  chart.append(createSvg('text',{x:minX,y:290,'font-size':12,fill:'#b29c87'},series[0].day),
+    createSvg('text',{x:maxX,y:290,'text-anchor':'end','font-size':12,fill:'#b29c87'},series.at(-1).day));
 }
 function renderAnalysis(){
   $('headerPersonA').textContent=vault.participants[0].name;
